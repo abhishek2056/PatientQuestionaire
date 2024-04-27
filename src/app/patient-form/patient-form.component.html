@@ -1,0 +1,63 @@
+<H2>Patient Questionaire</H2>
+
+<form class="mt-4" [formGroup]="form" (ngSubmit)="addToList()">
+
+    <ng-container formArrayName="patientInfo">
+        <ng-container *ngFor="let patientForm of patientInfo.controls;let i=index" >
+                <ng-template [ngIf]="questionaire.item[i].type=='boolean'" [ngIfThen]="boolean">
+                </ng-template>
+                <ng-template [ngIf]="questionaire.item[i].type=='string'" [ngIfThen]="string">
+                </ng-template>
+                <ng-template [ngIf]="questionaire.item[i].type=='choice'" [ngIfThen]="choice">
+                </ng-template>
+                <ng-template [ngIf]="questionaire.item[i].type=='date'" [ngIfThen]="date">
+                </ng-template>
+
+                <ng-template #boolean>
+                    <label>{{questionaire.item[i].text}}</label>
+                     <input formControlName="{{i}}" type="radio" id="true" value="True">
+                     <label for="true">True</label>
+                     <input formControlName="{{i}}" type="radio" id="false" value="False">
+                     <label for="false">False</label><br><br>
+                </ng-template>
+
+                <ng-template #string>
+                    <label>{{questionaire.item[i].text}}</label>
+                    <input formControlName="{{i}}" type="text" [placeholder]="patientForm.value"><br><br> 
+                </ng-template>
+
+                <ng-template #choice>
+                    <label >{{questionaire.item[i].text}}</label>
+                    <select formControlName="{{i}}">
+
+                        <ng-container *ngFor="let option of questionaire.item[i].option;let n=index;">
+                            <option value="{{option.valueCoding.code}}" >{{option.valueCoding.display}}</option>
+                        </ng-container>
+                        
+                    </select><br><br> 
+                </ng-template>
+                
+                <ng-template #date>
+                    <label>{{questionaire.item[i].text}}</label>
+                    <input formControlName="{{i}}" type="date" [placeholder]="patientForm.value"><br><br> 
+                </ng-template>
+        </ng-container>
+
+        <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button><button class="btn btn-danger" (click)="clearTheForm()">Clear</button>
+
+        <small class="warning" *ngIf="form.invalid && form.touched">**All fields must be filled</small>
+
+    </ng-container>
+
+</form>
+
+<div *ngIf="questionaire.item[0].selectedValue!=undefined && questionaire.item[0].selectedValue.length>0">
+    <table class="table-bordered" >
+        <ng-container *ngFor="let content of questionaire.item;let i=index">
+            <tr>
+                <td>{{content.text}}<td>
+                <td *ngFor="let value of questionaire.item[i].selectedValue">{{value}}</td>
+            </tr>
+        </ng-container>
+    </table>
+</div>

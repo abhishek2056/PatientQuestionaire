@@ -1,0 +1,22 @@
+table{
+    margin-top:5vw;
+    margin-bottom:5vw;
+}
+
+td{
+    padding:1vw 1vw;
+}
+
+
+button {
+    margin-right:5vw;
+}
+
+select, input {
+    margin-left:2vw;
+}
+
+small.warning {
+    color: red;
+    font-weight:700;
+}
